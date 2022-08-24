@@ -55,6 +55,10 @@ aside i {
     font-size: 30px;
 }
 
+.messages {
+    border-right: 1px solid rgb(34, 34, 34);
+}
+
 .message {
     display: inline-block;
     position: relative;
