@@ -68,7 +68,19 @@ aside i {
     max-width: 65%;
 }
 
-.message:nth-of-type(1):before {
+.message.sent:nth-of-type(1):before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    clip-path: polygon(0 0, 0 100%, 100% 0);
+    background-color: inherit;
+    position: absolute;
+    top: 0;
+    right: -19px;
+}
+
+.message.recieve:nth-of-type(1):before {
     content: "";
     display: inline-block;
     width: 20px;
