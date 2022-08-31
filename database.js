@@ -1,10 +1,3 @@
-const friends = [
-  { id: 1, username: "Bolu" },
-  { id: 2, username: "Ajayi crowder" },
-  { id: 3, username: "Tejumola" },
-  { id: 4, username: "Jamil" },
-];
-
 const chats = [
   {
     clientid: 3,

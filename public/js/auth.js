@@ -1,3 +1,2 @@
-import { authLogin } from "./services.js";
-
-loginform.addEventListener("submit", authLogin);
+const user = JSON.parse(localStorage.getItem("mcu"));
+if (!user) location.href = "index.html";

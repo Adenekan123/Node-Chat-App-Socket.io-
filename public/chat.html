@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="custom.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
+    <script src="./js/auth.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/main.js" type="module"></script>
 
@@ -251,7 +252,7 @@
                 <div class="d-flex justify-content-between align-items-center ">
                     <div class="title d-flex align-items-center">
                         <i class="fa-solid fa-circle-user fa-2x"></i>
-                        <span class="ms-2 fw-bold">Bolu</span>
+                        <span class="ms-2 fw-bold" id="client_username">Bolu</span>
                     </div>
                     <div>
                         <button class="btn btn-light px-4 py-1 rounded-1 m-0 ">Exit</button>
@@ -259,7 +260,7 @@
                 </div>
 
             </header>
-            <div class="content  position-relative  w-100" style=" height:calc(100vh - 70px); overflow-y:auto">
+            <div class="content message-content position-relative  w-100" style=" height:calc(100vh - 70px); overflow-y:auto">
                 <div class="messages p-4 px-5 pb-5">
                     <div class="sent-container d-flex align-items-end flex-column w-100">
                         <div class="sent message px-3 py-2">

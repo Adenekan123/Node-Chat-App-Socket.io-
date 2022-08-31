@@ -1,22 +1,19 @@
 import { getMyConversations, getConversationsWithUSer } from "./services.js";
-const user = JSON.parse(localStorage.getItem("mcu"));
-if (!user) location.href = "index.html";
 const clientinputid = document.querySelector("#sendMessageForm #clientid");
 
 const socket = io();
 // socket.on("connect", () => socket.emit("userConnected", user.id));
 socket.on("message", (message) => {
   console.log(message);
-  if (
-    typeof message === "object" &&
-    !message.error &&
-    message.from.id == parseInt(clientinputid.value.trim())
-  )
+  if (typeof message !== "object" && !message.error) return false;
+  if (message.from.id == parseInt(clientinputid.value.trim())) {
     passConversationsToDOM([message]);
+  } else {
+  }
 });
 
 window.addEventListener("load", function () {
-  getMyConversations().then(renderAllConversions).then(loadConversions);
+  getMyConversations().then(renderAllConversions).then(onUserClick);
   sendMessageForm.addEventListener("submit", sendMessage);
 });
 
@@ -28,7 +25,9 @@ function renderAllConversions(conversations) {
         <li class="px-3">
         <a href="#" class="text-light text-decoration-none d-flex align-items-center chat-person" clientid="${
           clientid == user.id ? from.id : to.id
-        }">
+        }" client_username="${
+      clientid == user.id ? from.username : to.username
+    }">
             <i class="fa-solid fa-circle-user "></i>
             <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
                 <div class="d-flex justify-content-between align-items-center ">
@@ -37,10 +36,12 @@ function renderAllConversions(conversations) {
                     }</span>
                     <small class="text-secondary lh-sm small ">10:17 AM</small>
                 </div>
-                <small class="text-secondary lh-sm d-block ">${message.substr(
-                  0,
-                  30
-                )} ...</small>
+                  <small class="text-secondary lh-sm">${message.substr(
+                    0,
+                    20
+                  )}...
+                  </small>
+                  
             </span>
         </a>
     </li>
@@ -50,18 +51,19 @@ function renderAllConversions(conversations) {
   chatconversations.innerHTML = html;
 }
 
-function loadConversions() {
+function onUserClick() {
   const chatpersons = document.querySelectorAll(".chat-person");
   chatpersons.forEach((chatperson) => {
     chatperson.addEventListener("click", function () {
+      client_username.innerText = this.getAttribute("client_username");
       document.querySelector("#sendMessageForm #clientid").value =
         this.getAttribute("clientid");
-      getConversationsWithUSer(this).then(renderConversations);
+      getConversationsWithUSer(this).then(renderUserConversations);
     });
   });
 }
 
-async function renderConversations(conversations) {
+async function renderUserConversations(conversations) {
   const messages = document.querySelector(".messages");
   messages.innerHTML = "";
   passConversationsToDOM(conversations);
@@ -73,9 +75,12 @@ function sendMessage(e) {
   const clientid = this.elements["clientid"].value;
   socket.emit("newMessage", { message, clientid });
   passConversationsToDOM([{ message, clientid, from: user.id, to: clientid }]);
+  this.elements["messageInput"].value = "";
+  this.elements["messageInput"].focus();
 }
 
 function passConversationsToDOM(conversations) {
+  const message_content = document.querySelectorAll(".content")[1];
   const messages = document.querySelector(".messages");
   conversations.forEach((conversation, index) => {
     const { clientid, message } = conversation;
@@ -139,4 +144,6 @@ function passConversationsToDOM(conversations) {
       }
     }
   });
+  //scroll to bottom
+  message_content.scrollTo({ top: message_content.clientHeight });
 }

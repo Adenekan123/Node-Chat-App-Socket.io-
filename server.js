@@ -2,11 +2,15 @@ const path = require("path");
 const http = require("node:http");
 const express = require("express");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const { chats, friends } = require("./database");
 const { getUser } = require("./src/utils/user.js");
 const userRoute = require("./src/routes/user");
+
+//Db
+require("./db");
 
 const app = express();
 const server = http.createServer(app);
@@ -19,6 +23,11 @@ const sessionMiddleware = session({
   secret: "verygoodsecrete",
   resave: false,
   saveUninitialized: true,
+  store: new MongoStore({
+    url: "mongodb://localhost:27017/masschat", //YOUR MONGODB URL
+    ttl: 14 * 24 * 60 * 60,
+    autoRemove: "native",
+  }),
 });
 app.use(sessionMiddleware);
 
@@ -56,13 +65,12 @@ io.use((socket, next) => {
 
 io.on("connection", (socket) => {
   console.log("New WS connetion");
-  console.log({ socketid: socket.id });
   socket.emit("message", "Hello!, Welcome to Mass Chat");
   socket.join(socket.id);
 
   socket.broadcast.emit("message", "A user just joined");
 
-  //listen to response
+  //listen to new message
   socket.on("newMessage", function ({ message, clientid }) {
     const newMessage = {
       clientid,
