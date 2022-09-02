@@ -1,16 +1,16 @@
 function getUser(userid, users) {
-  return users.find((user) => user.id == userid);
+  return users.find((user) => user._id == userid);
 }
 
-function getConversationsWithUSer(userid, recipientid, chats) {
-  return chats.filter(
-    (chat) =>
-      (chat.from.id == userid && chat.to.id == recipientid) ||
-      (chat.from.id == recipientid && chat.to.id == userid)
+function getConversationsWithUSer(userid, recipientid, messages) {
+  return messages.filter(
+    (message) =>
+      (message.sender.id == userid && message.reciever.id == recipientid) ||
+      (message.sender.id == recipientid && message.reciever.id == userid)
   );
 }
 
-function getLastMessages(userid, chats) {
+function getLastMessages(userid, messages) {
   //final result array
   const x = [];
 
@@ -21,12 +21,14 @@ function getLastMessages(userid, chats) {
   // );
 
   //Get most recent chats grouped by reciever id
-  chats.map((chat) => {
+  messages.map((message) => {
     const xindex = x.findIndex(
-      (y) => y.clientid == chat.clientid || y.clientid == chat.from.id
+      (y) =>
+        y.clientid.toString() == message.clientid.toString() ||
+        y.clientid.toString() == message.sender.id.toString()
     );
-    if (xindex > -1) x[xindex] = chat;
-    else x.push(chat);
+    if (xindex > -1) x[xindex] = message;
+    else x.push(message);
   });
 
   return x;

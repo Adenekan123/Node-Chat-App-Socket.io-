@@ -20,11 +20,52 @@
 <body class="bg-dark text-light">
     <div class="layout container">
         <div class="row g-0">
-            <aside class="col-md-3">
+            <aside class="col-md-3 position-relative">
                 <div class="bg-primary vh-100 body position-relative">
-                    <div class="position-sticky top-0" style=" height:60px; z-index: 10; ">
-                        <div class=" brand bg-onprimary p-3">
-                            <span class="logo fw-bold text-white fs-5 lh-1 ">Mass Chat.</span>
+                    <div class="position-sticky top-0 bg-onprimary" style=" height:60px; z-index: 10; ">
+                        <div class=" brand p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="logo fw-bold text-white fs-5 lh-1">Mass Chat.</span>
+                                <button class="bg-transparent p-0 border-0 btn-allfriends"><i
+                                        class="fa-solid fa-message" style="font-size:16px"></i></button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="search-filter px-3 mt-2 position-relative">
+                        <input type="search " name=" " id=" " class="form-control form-control-sm bg-onprimary border-0 ps-4 text-white-50 ">
+                        <div class="position-absolute start-0 ps-4 " style="top:40%; transform:translateY(-25%)">
+                            <i class="fa-solid fa-magnifying-glass small "></i>
+                        </div>
+                    </div>
+                    <div class="content py-1 position-relative  h-100">
+                        <p class="fs-6 fw-bold text-capitalize px-3 mt-4 lh-sm">Friends</p>
+                        <!-- //messages -->
+                        <ul class="links m-0 p-0" id="chatconversations"></ul>
+                        <!-- //messages end -->
+                    </div>
+                </div>
+
+                <!-- //view all friends panel -->
+                <div class="friends bg-primary  vh-100">
+                    <div class="position-sticky top-0" style=" height:65px; z-index: 11; ">
+                        <div class=" brand bg-onprimary p-3 d-flex justify-content-between align-items-center">
+                            <span class=" fw-bold text-white fs-6 lh-1 d-flex align-items-center">
+                                <button class="bg-transparent p-0 border-0 btn-hideallfriends"><i
+                                        class="fa-solid fa-left-long me-4 d-inline-block text-white"
+                                        style="font-size:16px"></i></button>
+
+                                New chat
+                            </span>
+                            <div>
+                                <button class="bg-transparent p-0 border-0 btn-allfriends me-3">
+                                    <i class="fa-solid fa-user-plus" style="font-size:16px"></i>
+                                </button>
+                                <button class="bg-transparent p-0 border-0 btn-allfriends">
+                                    <i class="fa-solid fa-user-group" style="font-size:16px"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="search-filter px-3 pt-2 position-relative">
                             <input type="search " name=" " id=" " class="form-control form-control-sm bg-onprimary border-0 ps-4 text-white-50 ">
@@ -34,317 +75,164 @@
                         </div>
                     </div>
                     <div class="content py-1 position-relative mt-4 h-100">
+                        <!-- //tabs -->
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active bg-transparent" id="pills-friends-tab" data-bs-toggle="pill" data-bs-target="#pills-friends" type="button" role="tab" aria-controls="pills-friends" aria-selected="true">Friends</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-groups-tab" data-bs-toggle="pill" data-bs-target="#pills-groups" type="button" role="tab" aria-controls="pills-groups" aria-selected="false">Groups</button>
+                            </li>
 
-                        <p class="fs-6 fw-bold text-capitalize px-3 mt-4 lh-sm ">Friends</p>
-                        <ul class="links m-0 p-0" id="chatconversations">
-                            <li class="px-3 ">
-                                <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-                                    <i class="fa-solid fa-circle-user "></i>
-                                    <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Bolu</span>
-                                    <small class="text-secondary lh-sm small ">10:17 AM</small>
-                    </div>
-                    <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                            const ...</small>
-                    </span>
-                    </a>
-                    </li>
-                    <li class="px-3 ">
-                        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-                            <i class="fa-solid fa-circle-user "></i>
-                            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Tejumola</span>
-                            <small class="text-secondary lh-sm small ">7:00 AM</small>
-                </div>
-                <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor</small>
-                </span>
-                </a>
-                </li>
-                <li class="px-3 ">
-                    <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-                        <i class="fa-solid fa-circle-user "></i>
-                        <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Ajayi Crowder</span>
-                        <small class="text-secondary lh-sm small ">Yesterday</small>
-        </div>
-        <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                            const ...</small>
-        </span>
-        </a>
-        </li>
-        <li class="px-3 ">
-            <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-                <i class="fa-solid fa-circle-user "></i>
-                <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Jamil Rashford</span>
-                <small class="text-secondary lh-sm small ">Monday</small>
-    </div>
-    <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                        </small>
-    </span>
-    </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Jamil Rashford</span>
-            <small class="text-secondary lh-sm small ">Monday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                        </small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Tejumola</span>
-            <small class="text-secondary lh-sm small ">7:00 AM</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor</small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Ajayi Crowder</span>
-            <small class="text-secondary lh-sm small ">Yesterday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                            const ...</small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Jamil Rashford</span>
-            <small class="text-secondary lh-sm small ">Monday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                        </small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Jamil Rashford</span>
-            <small class="text-secondary lh-sm small ">Monday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                        </small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Ajayi Crowder</span>
-            <small class="text-secondary lh-sm small ">Yesterday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                            const ...</small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Jamil Rashford</span>
-            <small class="text-secondary lh-sm small ">Monday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                        </small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Jamil Rashford</span>
-            <small class="text-secondary lh-sm small ">Monday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                        </small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Tejumola</span>
-            <small class="text-secondary lh-sm small ">7:00 AM</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor</small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Ajayi Crowder</span>
-            <small class="text-secondary lh-sm small ">Yesterday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                            const ...</small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Jamil Rashford</span>
-            <small class="text-secondary lh-sm small ">Monday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                        </small>
-            </span>
-        </a>
-    </li>
-    <li class="px-3 ">
-        <a href=" " class="text-light text-decoration-none d-flex align-items-center ">
-            <i class="fa-solid fa-circle-user "></i>
-            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
-                                        <div class="d-flex justify-content-between align-items-center ">
-                                            <span>Jamil Rashford</span>
-            <small class="text-secondary lh-sm small ">Monday</small>
-            </div>
-            <small class="text-secondary lh-sm d-block ">Lorem ipsum dolor sit amet
-                                        </small>
-            </span>
-        </a>
-    </li>
-    </ul>
-    </div>
-    </div>
-    </aside>
-    <main class="col-md-9 ">
-        <div class="bg-dark vh-100 ">
-            <header class="p-3 px-4 bg-onprimary " style="height:60px ">
-                <div class="d-flex justify-content-between align-items-center ">
-                    <div class="title d-flex align-items-center">
-                        <i class="fa-solid fa-circle-user fa-2x"></i>
-                        <span class="ms-2 fw-bold" id="client_username">Bolu</span>
-                    </div>
-                    <div>
-                        <button class="btn btn-light px-4 py-1 rounded-1 m-0 ">Exit</button>
+                        </ul>
+                        <!-- //tab content -->
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-friends" role="tabpanel" aria-labelledby="pills-friends-tab" tabindex="0">
+                                <ul class="links m-0 p-0" id="newchatconversations"></ul>
+                                <button class="btn-add btn bg-none btn-show-newfriendOrGroupPanel"><i
+                                        class="fa-solid fa-circle-plus fa-3x text-white"></i></button>
+                            </div>
+                            <div class="tab-pane fade " id="pills-groups" role="tabpanel" aria-labelledby="pills-groups-tab" tabindex="0">
+                                <ul class="links m-0 p-0" id="groupconversations">
+                                    groups..
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-            </header>
-            <div class="content message-content position-relative  w-100" style=" height:calc(100vh - 70px); overflow-y:auto">
-                <div class="messages p-4 px-5 pb-5">
-                    <div class="sent-container d-flex align-items-end flex-column w-100">
-                        <div class="sent message px-3 py-2">
-                            <span class="pe-5">This is my message to you</span>
-                            <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
-                                        2:15 PM
-                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
-                                    </small>
+                <!-- //Add new friends/groups panel -->
+                <div class="friends newFriendOrGroupPanel bg-primary  vh-100">
+                    <div class="position-sticky top-0" style=" height:65px; z-index: 11; ">
+                        <div class=" brand bg-onprimary p-3 d-flex justify-content-between align-items-center">
+                            <span class=" fw-bold text-white fs-6 lh-1 d-flex align-items-center">
+                                <button class="bg-transparent p-0 border-0 btn-hide-newfriendOrGroupPanel"><i
+                                        class="fa-solid fa-left-long me-4 d-inline-block text-white"
+                                        style="font-size:16px"></i></button>
+
+                                New Friends
+                            </span>
+                            <div>
+                                <button class="bg-transparent p-0 border-0 btn-allfriends me-3">
+                                    <i class="fa-solid fa-user-plus" style="font-size:16px"></i>
+                                </button>
+                                <button class="bg-transparent p-0 border-0 btn-allfriends">
+                                    <i class="fa-solid fa-user-group" style="font-size:16px"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="sent message px-3 py-2">
-                            <span class="pe-5">This is my message to you</span>
-                            <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
-                                        2:15 PM
-                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
-                                    </small>
-                        </div>
-                    </div>
-                    <div class="recieve-container d-flex justify-content-start w-100">
-                        <div class="recieve message px-3 py-2">
-                            <span class="pe-5">This is a message for you</span>
-                            <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
-                                        2:15 PM
-                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
-                                    </small>
-                        </div>
-                    </div>
-                    <div class="sent-container d-flex align-items-end flex-column w-100">
-                        <div class="sent message px-3 py-2">
-                            <span class="pe-5">This is my message to you</span>
-                            <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
-                                        2:15 PM
-                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
-                                    </small>
-                        </div>
-                    </div>
-                    <div class="recieve-container d-flex align-items-start flex-column w-100">
-                        <div class="recieve message px-3 py-2">
-                            <span class="pe-5">This is my message to you</span>
-                            <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
-                                        2:15 PM
-                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
-                                    </small>
-                        </div>
-                        <div class="recieve message px-3 py-2">
-                            <span class="pe-5">This is my message to you</span>
-                            <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
-                                        2:15 PM
-                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
-                                    </small>
+                        <div class="search-filter px-3 pt-2 position-relative">
+                            <input type="search " name=" " id=" " placeholder="Username,email,phone" class="form-control form-control-sm bg-onprimary border-0 ps-4 text-white-50">
+                            <div class="position-absolute start-0 ps-4 " style="top:40%; transform:translateY(-25%)">
+                                <i class="fa-solid fa-magnifying-glass small "></i>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="sent-container d-flex align-items-end flex-column w-100">
-                        <div class="sent message px-3 py-2">
-                            <span class="pe-5">That india guy chant me up on generating sitemap for his site.
+                    <ul class="links m-0 p-0" id="newFriendOrGroup"></ul>
+
+                </div>
+
+            </aside>
+            <main class="col-md-9 ">
+                <div class="bg-dark vh-100 ">
+                    <header class="p-3 px-4 bg-onprimary " style="height:60px ">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="title d-flex align-items-center">
+                                <i class="fa-solid fa-circle-user fa-2x"></i>
+                                <span class="ms-2 fw-bold" id="client_username">Bolu</span>
+                            </div>
+                            <div>
+                                <button class="btn btn-light px-4 py-1 rounded-1 m-0 ">Exit</button>
+                            </div>
+                        </div>
+
+                    </header>
+                    <div class="content message-content position-relative  w-100" style=" height:calc(100vh - 70px); overflow-y:auto">
+                        <div class="messages p-4 px-5 pb-5">
+                            <div class="sent-container d-flex align-items-end flex-column w-100">
+                                <div class="sent message px-3 py-2">
+                                    <span class="pe-5">This is my message to you</span>
+                                    <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
+                                        2:15 PM
+                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
+                                    </small>
+                                </div>
+                                <div class="sent message px-3 py-2">
+                                    <span class="pe-5">This is my message to you</span>
+                                    <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
+                                        2:15 PM
+                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="recieve-container d-flex justify-content-start w-100">
+                                <div class="recieve message px-3 py-2">
+                                    <span class="pe-5">This is a message for you</span>
+                                    <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
+                                        2:15 PM
+                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="sent-container d-flex align-items-end flex-column w-100">
+                                <div class="sent message px-3 py-2">
+                                    <span class="pe-5">This is my message to you</span>
+                                    <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
+                                        2:15 PM
+                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="recieve-container d-flex align-items-start flex-column w-100">
+                                <div class="recieve message px-3 py-2">
+                                    <span class="pe-5">This is my message to you</span>
+                                    <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
+                                        2:15 PM
+                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
+                                    </small>
+                                </div>
+                                <div class="recieve message px-3 py-2">
+                                    <span class="pe-5">This is my message to you</span>
+                                    <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
+                                        2:15 PM
+                                        <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="sent-container d-flex align-items-end flex-column w-100">
+                                <div class="sent message px-3 py-2">
+                                    <span class="pe-5">That india guy chant me up on generating sitemap for his site.
                                         this thing is working ooo but i should have a series of url links.</span>
-                            <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
+                                    <small class="small text-secondary ms-2 d-flex justify-content-end align-items-center lh-sm">
                                         2:15 PM
                                         <i class="fa-solid fa-check-double ms-1 d-inline-block"></i>
                                     </small>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
+
+
+                        <form id="sendMessageForm" class="search-filter    position-fixed px-5" style="bottom:20px; width:61%">
+                            <input type="search " name=" " id="messageInput" placeholder="Type here" class="form-control form-control-sm bg-light border-0 ps-4 text-dark-50 shadow" style="padding-top:10px; padding-bottom:10px;" />
+                            <input type="hidden" id="clientid">
+
+                            <div class="position-absolute" style="right:53px;top:50%; transform:translateY(-51%)">
+                                <button class="btn btn-dark btn-sm"><i class="fa-solid fa-paper-plane"></i></button>
+                            </div>
+                        </form>
                     </div>
-
-
-
-
                 </div>
-
-
-                <form id="sendMessageForm" class="search-filter    position-fixed px-5" style="bottom:20px; width:61%">
-                    <input type="search " name=" " id="messageInput" placeholder="Type here" class="form-control form-control-sm bg-light border-0 ps-4 text-dark-50 shadow" style="padding-top:10px; padding-bottom:10px;" />
-                    <input type="hidden" id="clientid">
-
-                    <div class="position-absolute" style="right:53px;top:50%; transform:translateY(-51%)">
-                        <button class="btn btn-dark btn-sm"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
-                </form>
-            </div>
+            </main>
         </div>
-    </main>
-    </div>
     </div>
 
-    <script src="./js/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="./bootstrap/dist/js/bootstrap.bundle.js"></script>
 
 </body>
 

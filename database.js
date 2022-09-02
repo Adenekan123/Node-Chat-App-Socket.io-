@@ -56,7 +56,7 @@ const chats = [
   },
 ];
 
-module.exports = {
-  friends,
-  chats,
-};
+// module.exports = {
+//   friends,
+//   chats,
+// };

@@ -19,16 +19,20 @@ function auth(req, res, next) {
 }
 
 Route.post("/register", async (req, res) => {
-  const { username,email,password } = req.body;
+  const { username, email, password } = req.body;
   try {
-    if (!username || !password || !email) throw new Error("Please fill all fields");
+    if (!username || !password || !email)
+      throw new Error("Please fill all fields");
 
-    const createuser =  new User({username, email, password});
-    createuser.save(function(err){
-      if(err) throw new Error("Unable to create account");
-      res.status(200).json({error:false,message:'Account Created Successfully',redirecturl:'index.html'})
+    const createuser = new User({ username, email, password });
+    createuser.save(function (err) {
+      if (err) throw new Error(err.message);
+      res.status(200).json({
+        error: false,
+        message: "Account Created Successfully",
+        redirecturl: "index.html",
+      });
     });
-    
   } catch (err) {
     res.status(401).json({ error: true, message: err.message });
   }
@@ -39,9 +43,10 @@ Route.post("/login", async (req, res) => {
   try {
     if (!username || !password) throw new Error("Please fill all fields");
 
-    const user = await User.find({ username: username });
-    if (!user) throw new Error("Incorrect username or password");
-    if (!User.isValidPassword(password))
+    const user = await User.findOne({ username: username });
+    if (!user || user.length < 1)
+      throw new Error("Incorrect username or password");
+    if (!(await user.isValidPassword(password)))
       throw new Error("Incorrect username or password");
     req.session.regenerate((err) => {
       if (err) throw new Error("Something went wrong");
@@ -73,7 +78,7 @@ Route.get("/logout", async (req, res) => {
 
 Route.get("/friends", auth, async (req, res) => {
   try {
-    const friends = await User.find({_id:req.user._id}, { friends: 1 });
+    const friends = await User.find({ _id: req.user._id }, { friends: 1 });
     if (!friends) return res.status(200).json([]);
     res.status(200).json(friends);
   } catch (e) {
@@ -86,8 +91,8 @@ Route.get("/messages/:id", auth, async (req, res) => {
     const clientid = req.params.id;
     const messages = await Messages.find({
       $or: [
-        { reciever: req.user._id, sender: clientid },
-        { reciever: clientid, sender: req.user._id },
+        { "reciever.id": req.user._id, "sender.id": clientid },
+        { "reciever.id": clientid, "sender.id": req.user._id },
       ],
     });
     if (!messages) return res.status(200).json([]);
@@ -102,15 +107,12 @@ Route.get("/messages/:id", auth, async (req, res) => {
     res.status(404).json({ error: true, message: err.message });
   }
 });
-Route.get("/chats", auth, (req, res) => {
+Route.get("/messages", auth, async (req, res) => {
   try {
     const messages = await Messages.find({
-      $or: [
-        { reciever: req.user._id },
-        { sender: req.user._id },
-      ],
+      $or: [{ "reciever.id": req.user._id }, { "sender.id": req.user._id }],
     });
-    const conversations = getLastMessages(req.user.id, messages);
+    const conversations = getLastMessages(req.user._id, messages);
     res.status(200).json(conversations);
   } catch (err) {
     res.status(404).json({ error: true, message: err.message });
