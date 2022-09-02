@@ -5,12 +5,14 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const { chats, friends } = require("./database");
 const { getUser } = require("./src/utils/user.js");
 const userRoute = require("./src/routes/user");
 
 //Db
 require("./db");
+
+const User = require("./src/model/user");
+const Messages = require("./src/model/messages");
 
 const app = express();
 const server = http.createServer(app);
@@ -24,7 +26,7 @@ const sessionMiddleware = session({
   resave: false,
   saveUninitialized: true,
   store: new MongoStore({
-    url: "mongodb://localhost:27017/masschat", //YOUR MONGODB URL
+    mongoUrl: "mongodb://localhost:27017/masschat",
     ttl: 14 * 24 * 60 * 60,
     autoRemove: "native",
   }),
@@ -56,7 +58,9 @@ io.use(wrap(sessionMiddleware));
 io.use((socket, next) => {
   const session = socket.request.session;
   if (session && session.user) {
-    socket.id = session.user.id;
+    socket.id = session.user._id.toString();
+    socket.username = session.user.username;
+    socket.friends = session.user.friends;
     next();
   } else {
     next(new Error("unauthorized"));
@@ -71,18 +75,25 @@ io.on("connection", (socket) => {
   socket.broadcast.emit("message", "A user just joined");
 
   //listen to new message
-  socket.on("newMessage", function ({ message, clientid }) {
-    const newMessage = {
+  socket.on("newMessage", async function ({ message, clientid }) {
+    const reciever = await User.findOne({ _id: clientid }, { username: 1 });
+    const messageObj = {
       clientid,
       message,
-      from: getUser(socket.id, friends),
-      to: getUser(clientid, friends),
+      sender: { id: socket.id, username: socket.username },
+      reciever: { id: clientid, username: reciever.username },
     };
 
+    console.log(messageObj);
+
+    const newMessage = new Messages(messageObj);
+    await newMessage.save();
+
+    socket.broadcast.to(clientid).emit("message", newMessage);
+
     //add to chats array/table
-    chats.push(newMessage);
+    // chats.push(newMessage);
     //emit the message back to user
-    socket.broadcast.to(parseInt(clientid)).emit("message", newMessage);
   });
 
   socket.on("disconnect", () =>

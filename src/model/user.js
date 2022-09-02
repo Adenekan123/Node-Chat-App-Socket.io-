@@ -9,23 +9,23 @@ const schema = new mongoose.Schema({
   phone: { type: String, trim: true },
   friends: [
     {
-      id: { type: mongoose.Schema.Types.ObjectId, unique: true },
-      username: { type: String, required: true, trim: true },
+      id: { type: mongoose.Schema.Types.ObjectId },
+      username: { type: String, trim: true },
     },
   ],
   groups: [
     {
-      id: { type: mongoose.Schema.Types.ObjectId, unique: true },
-      groupname: { type: String, required: true, trim: true },
+      id: { type: mongoose.Schema.Types.ObjectId },
+      groupname: { type: String, trim: true },
     },
   ],
   date: { type: Date, default: Date.now() },
 });
 
-schema.pre("save", function (done) {
+schema.pre("save", async function () {
   const user = this;
   if (user.isDirectModified("password")) {
-    user.password = bcrypt.hash(user.password, 8);
+    user.password = await bcrypt.hash(user.password, 8);
   }
 });
 
@@ -33,6 +33,6 @@ schema.methods.isValidPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-schema.methods.friends = async function (userid) {};
+const User = mongoose.model("User", schema);
 
 module.exports = User;
