@@ -233,3 +233,27 @@ function renderAllFriends(users) {
 
   newchatconversations.innerHTML = html;
 }
+
+function renderNewFriends(newfriends) {
+  let html = "";
+  for (let i = 0; i < newfriends.length; i++) {
+    const { username, _id: clientid } = newfriends[i];
+    html += `
+        <li class="px-3">
+        <a href="#" class="text-light text-decoration-none d-flex align-items-center chat-person" clientid="${clientid}" client_username="${username}">
+            <i class="fa-solid fa-circle-user "></i>
+            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
+                <div class="d-flex justify-content-between align-items-center ">
+                    <span>${username}</span>
+                    <small class="text-secondary lh-sm small ">10:17 AM</small>
+                </div>
+                  <small class="text-secondary lh-sm">Hey there! I use MC</small>
+                  
+            </span>
+        </a>
+    </li>
+        `;
+  }
+
+  newchatconversations.innerHTML = html;
+}

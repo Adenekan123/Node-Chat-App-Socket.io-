@@ -82,7 +82,23 @@ Route.get("/friends", auth, async (req, res) => {
     if (!friends) return res.status(200).json([]);
     res.status(200).json(friends);
   } catch (e) {
-    res.status(404).json({ error: true, message: err.message });
+    res.status(404).json({ error: true, message: e.message });
+  }
+});
+Route.get("/newfriends", auth, async (req, res) => {
+  try {
+    const friends = await User.find({ _id: req.user._id }, { friends: 1 });
+    const newfriends = await User.find(
+      {
+        _id: { $ne: req.user._id },
+        "friends.id": { $nin: friends },
+      },
+      { groups: 0, password: 0, date: 0 }
+    );
+    if (!newfriends) return res.status(200).json([]);
+    res.status(200).json(newfriends);
+  } catch (e) {
+    res.status(404).json({ error: true, message: e.message });
   }
 });
 
