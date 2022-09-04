@@ -81,7 +81,7 @@ Route.get("/friends", auth, async (req, res) => {
     const friends = await User.find(
       { _id: req.user._id, "friends.accepted": true },
       { friends: 1 }
-    );
+    ).then(([{ friends }]) => friends.filter((friend) => friend.accepted));
     if (!friends) return res.status(200).json([]);
     res.status(200).json(friends);
   } catch (e) {
@@ -116,6 +116,52 @@ Route.get("/friendrequests", auth, async (req, res) => {
 
     if (!friendrequests) return res.status(200).json(["err"]);
     res.status(200).json(friendrequests);
+  } catch (e) {
+    res.status(404).json({ error: true, message: e.message });
+  }
+});
+
+Route.get("/friendrequests/:id", auth, async (req, res) => {
+  try {
+    const requester = await User.find(
+      { _id: req.params.id },
+      { _id: 1, username: 1 }
+    );
+    const updateRequestee = await User.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        $push: { friends: { id: requester._id, username: requester.username } },
+      }
+    );
+
+    if (!updateRequestee._id) return res.status(200).json(["err"]);
+    res.status(200).json(updateRequestee);
+  } catch (e) {
+    res.status(404).json({ error: true, message: e.message });
+  }
+});
+Route.get("/acceptfriendrequests/:id", auth, async (req, res) => {
+  try {
+    const updateRequestee = findOneAndUpdate(
+      { _id: req.user._id, "friends.id": req.params.id },
+      { $set: { "friends.$.accepted": true } }
+    );
+    const updateRequester = await User.findOneAndUpdate(
+      { _id: req.params._id },
+      {
+        $push: {
+          friends: {
+            id: req.user._id,
+            username: req.user.username,
+            accepted: true,
+          },
+        },
+      }
+    );
+
+    if (!updateRequestee._id && !updateRequester._id)
+      return res.status(200).json(["err"]);
+    res.status(200).json(updateRequestee);
   } catch (e) {
     res.status(404).json({ error: true, message: e.message });
   }
