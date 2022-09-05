@@ -2,6 +2,8 @@ import {
   getMyConversations,
   getConversationsWithUSer,
   getAllFriends,
+  getNewFriends,
+  sendFriendRequest,
 } from "./services.js";
 const clientinputid = document.querySelector("#sendMessageForm #clientid");
 const btnAllFriends = document.querySelector(".btn-allfriends");
@@ -47,12 +49,17 @@ window.addEventListener("load", function () {
 
   showfiendsOrGroupPanel.forEach((btn, index) => {
     btn.onclick = () => {
-      newfriendsOrGroupPanel.classList.contains("slide-out-left")
-        ? newfriendsOrGroupPanel.classList.replace(
-            "slide-out-left",
-            "slide-in-left"
-          )
-        : newfriendsOrGroupPanel.classList.add("slide-in-left");
+      getNewFriends()
+        .then(renderNewFriends)
+        .then(() => {
+          newfriendsOrGroupPanel.classList.contains("slide-out-left")
+            ? newfriendsOrGroupPanel.classList.replace(
+                "slide-out-left",
+                "slide-in-left"
+              )
+            : newfriendsOrGroupPanel.classList.add("slide-in-left");
+        })
+        .then(onRequestClick);
     };
 
     hideriendsOrGroupPanel[index].onclick = () =>
@@ -133,7 +140,6 @@ function passConversationsToDOM(conversations) {
   conversations.forEach((conversation, index) => {
     const { clientid, message } = conversation;
     if (clientid == user._id) {
-      console.log({ clientid });
       if (
         (index > 0 && clientid == conversations[index - 1].clientid) ||
         (message_content.firstElementChild.lastElementChild &&
@@ -209,8 +215,7 @@ function passConversationsToDOM(conversations) {
   message_content.scrollTo({ top: message_content.scrollHeight });
 }
 
-function renderAllFriends(users) {
-  const friends = users[0]["friends"];
+function renderAllFriends(friends) {
   let html = "";
   for (let i = 0; i < friends.length; i++) {
     const { username, id: clientid } = friends[i];
@@ -232,4 +237,38 @@ function renderAllFriends(users) {
   }
 
   newchatconversations.innerHTML = html;
+}
+
+async function renderNewFriends(newfriends) {
+  let html = "";
+  for (let i = 0; i < newfriends.length; i++) {
+    const { username, _id: clientid, friends } = newfriends[i];
+    html += `
+        <li class="px-3">
+        <a href="#" class="text-light text-decoration-none d-flex align-items-center">
+            <i class="fa-solid fa-circle-user "></i>
+            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
+                <span class="d-block">${username}</span>  
+                <div class="d-flex justify-content-between align-items-center ">
+                  <small class="text-secondary lh-sm">${friends.length} friends</small>
+                  <button class="btn btn-sm btn-success btn-request" clientid=${clientid}>Send request</button>
+                </div>
+            </span>
+        </a>
+    </li>
+        `;
+  }
+
+  newFriendOrGroup.innerHTML = html;
+}
+
+function onRequestClick() {
+  const requestbtns = Array.from(document.querySelectorAll(".btn-request"));
+  requestbtns.forEach((btn) => {
+    btn.addEventListener("click", async () =>
+      sendFriendRequest(btn.getAttribute("clientid")).then((res) =>
+        console.log(res)
+      )
+    );
+  });
 }

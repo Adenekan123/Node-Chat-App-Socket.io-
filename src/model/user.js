@@ -11,12 +11,14 @@ const schema = new mongoose.Schema({
     {
       id: { type: mongoose.Schema.Types.ObjectId },
       username: { type: String, trim: true },
+      accepted: { type: Boolean, default: false },
     },
   ],
   groups: [
     {
       id: { type: mongoose.Schema.Types.ObjectId },
       groupname: { type: String, trim: true },
+      accepted: { type: Boolean, default: false },
     },
   ],
   date: { type: Date, default: Date.now() },
