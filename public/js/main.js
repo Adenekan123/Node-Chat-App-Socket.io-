@@ -4,12 +4,41 @@ import {
   getAllFriends,
   getNewFriends,
   sendFriendRequest,
+  acceptFriendRequest,
+  getFriendRequests,
 } from "./services.js";
 const clientinputid = document.querySelector("#sendMessageForm #clientid");
 const btnAllFriends = document.querySelector(".btn-allfriends");
 const friendsPanel = document.querySelector(".friends");
 const hidefriendsPanel = document.querySelector(".btn-hideallfriends");
 const newfriendsOrGroupPanel = document.querySelector(".newFriendOrGroupPanel");
+
+const notificationsPanel = document.querySelector(".notification-panel");
+const btnShowNotificationsPanel = document.querySelector(
+  ".btn-show-notification"
+);
+const btnHideNotificationsPanel = document.querySelector(
+  ".btn-hide-notification"
+);
+const notifications = document.querySelector("#notifications");
+
+btnShowNotificationsPanel.addEventListener("click", function () {
+  getFriendRequests()
+    .then(renderfriendRequests)
+    .then(() => {
+      notificationsPanel.classList.contains("slide-out-left")
+        ? notificationsPanel.classList.replace(
+            "slide-out-left",
+            "slide-in-left"
+          )
+        : notificationsPanel.classList.add("slide-in-left");
+    })
+    .then(onAcceptClick);
+});
+
+btnHideNotificationsPanel.addEventListener("click", function () {
+  notificationsPanel.classList.add("slide-out-left");
+});
 
 const hideriendsOrGroupPanel = Array.from(
   document.querySelectorAll(".btn-hide-newfriendOrGroupPanel")
@@ -261,12 +290,46 @@ async function renderNewFriends(newfriends) {
 
   newFriendOrGroup.innerHTML = html;
 }
+async function renderfriendRequests(requesters) {
+  let html = "";
+  for (let i = 0; i < requesters.length; i++) {
+    const { username, id: clientid } = requesters[i];
+    html += `
+        <li class="px-3">
+        <a href="#" class="text-light text-decoration-none d-flex align-items-center">
+            <i class="fa-solid fa-circle-user "></i>
+            <span class="ms-3 fs-6 message-box text-capitalize py-2 ">
+                <span class="d-block">${username}</span>  
+                <div class="d-flex justify-content-between align-items-center ">
+                  <small class="text-secondary lh-sm">20 friends</small>
+                  <button class="btn btn-sm btn-success btn-accept-request" clientid=${clientid}>Accept request</button>
+                </div>
+            </span>
+        </a>
+    </li>
+        `;
+  }
+
+  notifications.innerHTML = html;
+}
 
 function onRequestClick() {
   const requestbtns = Array.from(document.querySelectorAll(".btn-request"));
   requestbtns.forEach((btn) => {
     btn.addEventListener("click", async () =>
       sendFriendRequest(btn.getAttribute("clientid")).then((res) =>
+        console.log(res)
+      )
+    );
+  });
+}
+function onAcceptClick() {
+  const accepttbtns = Array.from(
+    document.querySelectorAll(".btn-accept-request")
+  );
+  accepttbtns.forEach((btn) => {
+    btn.addEventListener("click", async () =>
+      acceptFriendRequest(btn.getAttribute("clientid")).then((res) =>
         console.log(res)
       )
     );

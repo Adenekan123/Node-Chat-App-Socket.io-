@@ -122,7 +122,7 @@ Route.get("/friendrequests", auth, async (req, res) => {
 
 Route.get("/friendrequests/:id", auth, async (req, res) => {
   try {
-    const requester = await User.find(
+    const requester = await User.findOne(
       { _id: req.params.id },
       { _id: 1, username: 1 }
     );
@@ -142,7 +142,7 @@ Route.get("/friendrequests/:id", auth, async (req, res) => {
 
 Route.get("/acceptfriendrequests/:id", auth, async (req, res) => {
   try {
-    const updateRequestee = findOneAndUpdate(
+    const updateRequestee = await User.findOneAndUpdate(
       { _id: req.user._id, "friends.id": req.params.id },
       { $set: { "friends.$.accepted": true } }
     );

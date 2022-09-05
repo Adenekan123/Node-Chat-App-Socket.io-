@@ -26,8 +26,13 @@
                         <div class=" brand p-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="logo fw-bold text-white fs-5 lh-1">Mass Chat.</span>
-                                <button class="bg-transparent p-0 border-0 btn-allfriends"><i
-                                        class="fa-solid fa-message" style="font-size:16px"></i></button>
+                                <div>
+                                    <button class="bg-transparent p-0 border-0 me-4 btn-show-notification"><i
+                                            class="fa-solid fa-bell" style="font-size:16px"></i></button>
+                                    <button class="bg-transparent p-0 border-0 btn-allfriends"><i
+                                            class="fa-solid fa-message" style="font-size:16px"></i></button>
+                                </div>
+
 
                             </div>
                         </div>
@@ -130,6 +135,22 @@
                     </div>
 
                     <ul class="links m-0 mt-5 p-0" id="newFriendOrGroup"></ul>
+
+                </div>
+
+                <!-- //Notification panel -->
+                <div class="friends notification-panel newFriendOrGroupPanel bg-primary  vh-100">
+                    <div class="position-sticky top-0  bg-onprimary px-3 d-flex align-items-center" style=" height:60px; z-index: 11; ">
+                        <span class="  d-flex align-items-center">
+                            <button
+                                class="bg-transparent p-0 border-0 fw-bold text-white fs-6 lh-1 btn-hide-notification"><i
+                                    class="fa-solid fa-left-long me-2 d-inline-block text-white"
+                                    style="font-size:16px"></i>Notification</button>
+
+                        </span>
+                    </div>
+
+                    <ul class="links m-0 mt-5 p-0" id="notifications"></ul>
 
                 </div>
 
