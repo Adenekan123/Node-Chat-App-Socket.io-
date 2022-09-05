@@ -73,3 +73,38 @@ export async function getAllFriends() {
     console.log(err);
   }
 }
+export async function getNewFriends() {
+  try {
+    const response = await fetch(`${API_URL}/user/newfriends`);
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getFriendRequests() {
+  try {
+    const response = await fetch(`${API_URL}/user/friendrequests`);
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
+export async function sendFriendRequest(clientid) {
+  try {
+    const response = await fetch(`${API_URL}/user/friendrequests/${clientid}`);
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
+export async function acceptFriendRequest(clientid) {
+  try {
+    const response = await fetch(
+      `${API_URL}/user/acceptfriendrequests/${clientid}`
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
