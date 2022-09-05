@@ -90,17 +90,16 @@ Route.get("/friends", auth, async (req, res) => {
 });
 Route.get("/newfriends", auth, async (req, res) => {
   try {
-    const friends = await User.find(
-      { _id: req.user._id, "friends.accepted": true },
+    const friends = await User.findOne(
+      { _id: req.user._id },
       { friends: 1 }
-    );
-    const newfriends = await User.find(
-      {
-        _id: { $ne: req.user._id },
-        "friends.id": { $nin: friends },
-      },
-      { groups: 0, password: 0, date: 0 }
-    );
+    ).then(({ friends: x }) => x.map((y) => y.id.toString()));
+
+    const newfriends = await User.find({
+      _id: { $nin: [...friends, req.user._id] },
+      "friends.id": { $nin: [req.user._id] },
+    });
+
     if (!newfriends) return res.status(200).json([]);
     res.status(200).json(newfriends);
   } catch (e) {
@@ -140,6 +139,7 @@ Route.get("/friendrequests/:id", auth, async (req, res) => {
     res.status(404).json({ error: true, message: e.message });
   }
 });
+
 Route.get("/acceptfriendrequests/:id", auth, async (req, res) => {
   try {
     const updateRequestee = findOneAndUpdate(
@@ -188,6 +188,7 @@ Route.get("/messages/:id", auth, async (req, res) => {
     res.status(404).json({ error: true, message: err.message });
   }
 });
+
 Route.get("/messages", auth, async (req, res) => {
   try {
     const messages = await Messages.find({
