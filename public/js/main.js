@@ -22,31 +22,6 @@ const btnHideNotificationsPanel = document.querySelector(
 );
 const notifications = document.querySelector("#notifications");
 
-btnShowNotificationsPanel.addEventListener("click", function () {
-  getFriendRequests()
-    .then(renderfriendRequests)
-    .then(() => {
-      notificationsPanel.classList.contains("slide-out-left")
-        ? notificationsPanel.classList.replace(
-            "slide-out-left",
-            "slide-in-left"
-          )
-        : notificationsPanel.classList.add("slide-in-left");
-    })
-    .then(onAcceptClick);
-});
-
-btnHideNotificationsPanel.addEventListener("click", function () {
-  notificationsPanel.classList.add("slide-out-left");
-});
-
-const hideriendsOrGroupPanel = Array.from(
-  document.querySelectorAll(".btn-hide-newfriendOrGroupPanel")
-);
-const showfiendsOrGroupPanel = Array.from(
-  document.querySelectorAll(".btn-show-newfriendOrGroupPanel")
-);
-
 const socket = io();
 // socket.on("connect", () => socket.emit("userConnected", user.id));
 socket.on("message", (message) => {
@@ -58,8 +33,20 @@ socket.on("message", (message) => {
   }
 });
 
+socket.on("istyping", function (val) {
+  typing.innerText = val;
+});
+
 window.addEventListener("load", function () {
   getMyConversations().then(renderAllConversions).then(onUserClick);
+  messageInput.addEventListener("focus", function () {
+    const clientid = messageInput.nextElementSibling.value;
+    socket.emit("typing", { val: "Typing...", clientid });
+  });
+  messageInput.addEventListener("blur", function () {
+    const clientid = messageInput.nextElementSibling.value;
+    socket.emit("typing", { val: "", clientid });
+  });
   sendMessageForm.addEventListener("submit", sendMessage);
 
   btnAllFriends.addEventListener("click", function () {
@@ -97,6 +84,31 @@ window.addEventListener("load", function () {
         "slide-out-left"
       );
   });
+
+  btnShowNotificationsPanel.addEventListener("click", function () {
+    getFriendRequests()
+      .then(renderfriendRequests)
+      .then(() => {
+        notificationsPanel.classList.contains("slide-out-left")
+          ? notificationsPanel.classList.replace(
+              "slide-out-left",
+              "slide-in-left"
+            )
+          : notificationsPanel.classList.add("slide-in-left");
+      })
+      .then(onAcceptClick);
+  });
+
+  btnHideNotificationsPanel.addEventListener("click", function () {
+    notificationsPanel.classList.add("slide-out-left");
+  });
+
+  const hideriendsOrGroupPanel = Array.from(
+    document.querySelectorAll(".btn-hide-newfriendOrGroupPanel")
+  );
+  const showfiendsOrGroupPanel = Array.from(
+    document.querySelectorAll(".btn-show-newfriendOrGroupPanel")
+  );
 });
 
 function renderAllConversions(conversations) {
