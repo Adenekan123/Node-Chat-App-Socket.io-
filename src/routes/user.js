@@ -106,6 +106,8 @@ Route.get("/newfriends", auth, async (req, res) => {
     res.status(404).json({ error: true, message: e.message });
   }
 });
+
+//get friennd requests
 Route.get("/friendrequests", auth, async (req, res) => {
   try {
     const friendrequests = await User.find(
@@ -120,6 +122,7 @@ Route.get("/friendrequests", auth, async (req, res) => {
   }
 });
 
+//send friennd request
 Route.get("/friendrequests/:id", auth, async (req, res) => {
   try {
     const requester = await User.findOne(
@@ -140,6 +143,23 @@ Route.get("/friendrequests/:id", auth, async (req, res) => {
   }
 });
 
+//cancel friennd request
+Route.get("/calcelfriendrequests/:id", auth, async (req, res) => {
+  try {
+    const updateRequestee = await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $pull: { "friends.id": req.params.id } }
+    );
+
+    if (!updateRequestee._id && !updateRequestee._id)
+      return res.status(200).json(["err"]);
+    res.status(200).json(updateRequestee);
+  } catch (e) {
+    res.status(404).json({ error: true, message: e.message });
+  }
+});
+
+//accept friennd request
 Route.get("/acceptfriendrequests/:id", auth, async (req, res) => {
   try {
     const updateRequestee = await User.findOneAndUpdate(
