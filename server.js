@@ -96,6 +96,10 @@ io.on("connection", (socket) => {
     //emit the message back to user
   });
 
+  socket.on("typing", ({ val, clientid }) => {
+    socket.broadcast.to(clientid).emit("istyping", val);
+  });
+
   socket.on("disconnect", () =>
     socket.broadcast.emit("message", "A user just left the chat")
   );

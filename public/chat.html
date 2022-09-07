@@ -161,7 +161,14 @@
                         <div class="d-flex justify-content-between align-items-center ">
                             <div class="title d-flex align-items-center">
                                 <i class="fa-solid fa-circle-user fa-2x"></i>
-                                <span class="ms-2 fw-bold" id="client_username">Bolu</span>
+                                <div class="position-relative">
+                                    <span class="ms-2 fw-bold" id="client_username">
+                                        Bolu
+                                    </span>
+                                    <small class="d-block small text-white-50 lh-sm" id="typing" style="position:absolute;bottom:-9px; left:10px"></small>
+                                </div>
+
+
                             </div>
                             <div>
                                 <button class="btn btn-light px-4 py-1 rounded-1 m-0 ">Exit</button>
@@ -240,7 +247,7 @@
 
 
                         <form id="sendMessageForm" class="search-filter    position-fixed px-5" style="bottom:20px; width:61%">
-                            <input type="search " name=" " id="messageInput" placeholder="Type here" class="form-control form-control-sm bg-light border-0 ps-4 text-dark-50 shadow" style="padding-top:10px; padding-bottom:10px;" />
+                            <input type="search" id="messageInput" placeholder="Type here" class="form-control form-control-sm bg-light border-0 ps-4 text-dark-50 shadow" style="padding-top:10px; padding-bottom:10px;" />
                             <input type="hidden" id="clientid">
 
                             <div class="position-absolute" style="right:53px;top:50%; transform:translateY(-51%)">
