@@ -148,7 +148,7 @@ Route.get("/calcelfriendrequests/:id", auth, async (req, res) => {
   try {
     const updateRequestee = await User.findOneAndUpdate(
       { _id: req.user._id },
-      { $pull: { "friends.id": req.params.id } }
+      { $pull: { friends: { id: req.params.id } } }
     );
 
     if (!updateRequestee._id && !updateRequestee._id)
