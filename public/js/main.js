@@ -315,8 +315,10 @@ async function renderfriendRequests(requesters) {
                 <span class="d-block">${username}</span>  
                 <div class="d-flex justify-content-between align-items-center ">
                   <small class="text-secondary lh-sm">20 friends</small>
-                  <button class="btn btn-sm btn-success btn-accept-request" clientid=${clientid}>Accept</button>
-                  <button class="btn btn-sm btn-danger btn-reject-request" clientid=${clientid}>reject</button>
+                  <div>
+                    <button class="btn btn-sm btn-success btn-accept-request" clientid=${clientid}>Accept</button>
+                    <button class="btn btn-sm btn-danger btn-reject-request" clientid=${clientid}>reject</button>
+                  </div>
                 </div>
             </span>
         </a>
@@ -334,8 +336,8 @@ function onRequestClick() {
       btn.classList.contains("btn-reject")
         ? cancelFriendRequest(btn.getAttribute("clientid")).then((res) => {
             if (res._id) {
-              btn.classList = "btn btn-sm btn-danger btn-request";
-              btn.innerText = "Accept Request";
+              btn.classList = "btn btn-sm btn-success btn-request";
+              btn.innerText = "Send Request";
             }
           })
         : sendFriendRequest(btn.getAttribute("clientid")).then((res) => {

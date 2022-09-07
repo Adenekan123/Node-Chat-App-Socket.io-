@@ -125,14 +125,10 @@ Route.get("/friendrequests", auth, async (req, res) => {
 //send friennd request
 Route.get("/friendrequests/:id", auth, async (req, res) => {
   try {
-    const requester = await User.findOne(
-      { _id: req.params.id },
-      { _id: 1, username: 1 }
-    );
     const updateRequestee = await User.findOneAndUpdate(
-      { _id: req.user._id },
+      { _id: req.params.id },
       {
-        $push: { friends: { id: requester._id, username: requester.username } },
+        $push: { friends: { id: req.user._id, username: req.user.username } },
       }
     );
 
@@ -147,8 +143,8 @@ Route.get("/friendrequests/:id", auth, async (req, res) => {
 Route.get("/calcelfriendrequests/:id", auth, async (req, res) => {
   try {
     const updateRequestee = await User.findOneAndUpdate(
-      { _id: req.user._id },
-      { $pull: { friends: { id: req.params.id } } }
+      { _id: req.params.id },
+      { $pull: { friends: { id: req.user._id } } }
     );
 
     if (!updateRequestee._id && !updateRequestee._id)
@@ -167,7 +163,7 @@ Route.get("/acceptfriendrequests/:id", auth, async (req, res) => {
       { $set: { "friends.$.accepted": true } }
     );
     const updateRequester = await User.findOneAndUpdate(
-      { _id: req.params._id },
+      { _id: req.params.id },
       {
         $push: {
           friends: {
