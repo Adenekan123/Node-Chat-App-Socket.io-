@@ -4,6 +4,7 @@ import {
   getAllFriends,
   getNewFriends,
   sendFriendRequest,
+  cancelFriendRequest,
   acceptFriendRequest,
   getFriendRequests,
 } from "./services.js";
@@ -21,6 +22,13 @@ const btnHideNotificationsPanel = document.querySelector(
   ".btn-hide-notification"
 );
 const notifications = document.querySelector("#notifications");
+
+const hideriendsOrGroupPanel = Array.from(
+  document.querySelectorAll(".btn-hide-newfriendOrGroupPanel")
+);
+const showfiendsOrGroupPanel = Array.from(
+  document.querySelectorAll(".btn-show-newfriendOrGroupPanel")
+);
 
 const socket = io();
 // socket.on("connect", () => socket.emit("userConnected", user.id));
@@ -102,13 +110,6 @@ window.addEventListener("load", function () {
   btnHideNotificationsPanel.addEventListener("click", function () {
     notificationsPanel.classList.add("slide-out-left");
   });
-
-  const hideriendsOrGroupPanel = Array.from(
-    document.querySelectorAll(".btn-hide-newfriendOrGroupPanel")
-  );
-  const showfiendsOrGroupPanel = Array.from(
-    document.querySelectorAll(".btn-show-newfriendOrGroupPanel")
-  );
 });
 
 function renderAllConversions(conversations) {
@@ -314,7 +315,8 @@ async function renderfriendRequests(requesters) {
                 <span class="d-block">${username}</span>  
                 <div class="d-flex justify-content-between align-items-center ">
                   <small class="text-secondary lh-sm">20 friends</small>
-                  <button class="btn btn-sm btn-success btn-accept-request" clientid=${clientid}>Accept request</button>
+                  <button class="btn btn-sm btn-success btn-accept-request" clientid=${clientid}>Accept</button>
+                  <button class="btn btn-sm btn-danger btn-reject-request" clientid=${clientid}>reject</button>
                 </div>
             </span>
         </a>
@@ -328,11 +330,21 @@ async function renderfriendRequests(requesters) {
 function onRequestClick() {
   const requestbtns = Array.from(document.querySelectorAll(".btn-request"));
   requestbtns.forEach((btn) => {
-    btn.addEventListener("click", async () =>
-      sendFriendRequest(btn.getAttribute("clientid")).then((res) =>
-        console.log(res)
-      )
-    );
+    btn.addEventListener("click", async () => {
+      btn.classList.contains("btn-reject")
+        ? cancelFriendRequest(btn.getAttribute("clientid")).then((res) => {
+            if (res._id) {
+              btn.classList = "btn btn-sm btn-danger btn-request";
+              btn.innerText = "Accept Request";
+            }
+          })
+        : sendFriendRequest(btn.getAttribute("clientid")).then((res) => {
+            if (res._id) {
+              btn.classList = "btn btn-sm btn-danger btn-request btn-reject";
+              btn.innerText = "Cancel Request";
+            }
+          });
+    });
   });
 }
 function onAcceptClick() {
@@ -341,9 +353,12 @@ function onAcceptClick() {
   );
   accepttbtns.forEach((btn) => {
     btn.addEventListener("click", async () =>
-      acceptFriendRequest(btn.getAttribute("clientid")).then((res) =>
-        console.log(res)
-      )
+      acceptFriendRequest(btn.getAttribute("clientid")).then((res) => {
+        if (res._id) {
+          const li = btn.parentNode.parentNode.parentNode.parentNode;
+          li.parentNode.removeChild(li);
+        }
+      })
     );
   });
 }

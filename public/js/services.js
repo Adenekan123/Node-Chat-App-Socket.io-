@@ -98,6 +98,17 @@ export async function sendFriendRequest(clientid) {
     console.log(err);
   }
 }
+
+export async function cancelFriendRequest(clientid) {
+  try {
+    const response = await fetch(
+      `${API_URL}/user/calcelfriendrequests/${clientid}`
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
 export async function acceptFriendRequest(clientid) {
   try {
     const response = await fetch(
