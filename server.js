@@ -78,7 +78,7 @@ io.on("connection", (socket) => {
   socket.emit("message", "Hello!, Welcome to Mass Chat");
   socket.join(socket.id);
   socket.broadcast.emit("message", "A user just joined");
-  setOnlineStatus(socket, "online");
+  setOnlineStatus(socket, "active");
   //listen to new message
   socket.on("newMessage", async function ({ message, clientid }) {
     const reciever = await User.findOne({ _id: clientid }, { username: 1 });
@@ -107,7 +107,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     socket.broadcast.emit("message", "A user just left the chat");
-    setOnlineStatus(socket, "offline");
+    setOnlineStatus(socket, "inactive");
   });
 });
 

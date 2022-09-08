@@ -1,157 +1,170 @@
-                          :root {
-                             --color-primary: #17191b;
-                             --color-onprimary: #444;
-                             --color-secondary: rgb(255, 251, 0);
-                         }
-                         
-                         body {
-                             overflow: hidden;
-                         }
-                         
-                          ::-webkit-scrollbar {
-                             width: 5px;
-                         }
-                         
-                          ::-webkit-scrollbar-thumb {
-                             background: #888;
-                         }
-                         
-                         .bg-primary {
-                             background-color: var(--color-primary)!important
-                         }
-                         
-                         .bg-onprimary {
-                             background-color: var(--color-onprimary) !important
-                         }
-                         
-                         .bg-secondary {
-                             background-color: var(--color-secondary) !important
-                         }
-                         
-                         .btn-add {
-                             position: fixed;
-                             bottom: 20px;
-                             right: 30px;
-                         }
-                         
-                         .small {
-                             font-size: .675em;
-                         }
-                         
-                         aside {
-                             overflow: hidden;
-                         }
-                         
-                         aside .content {
-                             overflow: hidden;
-                             overflow-y: auto;
-                         }
-                         
-                         aside .links {
-                             list-style: none;
-                         }
-                         
-                         aside .links li {
-                             /* margin-bottom: 10px; */
-                         }
-                         
-                         aside .links li span.message-box {
-                             border-bottom: 1px solid #222;
-                             flex: 1;
-                         }
-                         
-                         aside i {
-                             color: grey;
-                             font-size: 30px;
-                         }
-                         
-                         .messages {
-                             border-right: 1px solid rgb(34, 34, 34);
-                         }
-                         
-                         .message {
-                             display: inline-block;
-                             position: relative;
-                             border-top-right-radius: 5px;
-                             border-bottom-right-radius: 5px;
-                             border-bottom-left-radius: 5px;
-                             max-width: 65%;
-                         }
-                         
-                         .message.sent:nth-of-type(1):before {
-                             content: "";
-                             display: inline-block;
-                             width: 20px;
-                             height: 20px;
-                             clip-path: polygon(0 0, 0 100%, 100% 0);
-                             background-color: inherit;
-                             position: absolute;
-                             top: 0;
-                             right: -19px;
-                         }
-                         
-                         .message.recieve:nth-of-type(1):before {
-                             content: "";
-                             display: inline-block;
-                             width: 20px;
-                             height: 20px;
-                             clip-path: polygon(0 0, 100% 100%, 100% 0);
-                             background-color: inherit;
-                             position: absolute;
-                             top: 0;
-                             left: -19px;
-                         }
-                         
-                         .message.sent {
-                             background-color: var(--color-primary);
-                         }
-                         
-                         .message:not(:last-of-type) {
-                             margin-bottom: 5px;
-                         }
-                         
-                         .message.recieve {
-                             background-color: var(--color-onprimary);
-                         }
-                         
-                         .sent-container,
-                         .recieve-container {
-                             margin-bottom: 32px
-                         }
-                         
-                         .friends {
-                             position: absolute;
-                             top: 0;
-                             left: 0;
-                             width: 100%;
-                             height: 100%;
-                             z-index: 10;
-                             transform: translateX(-100%);
-                             transition: all .4s;
-                         }
-                         
-                         .slide-in-left {
-                             animation: slide-in-left .2s cubic-bezier(.17, .67, .51, .95) forwards;
-                         }
-                         
-                         .slide-out-left {
-                             animation: slide-out-left .2s cubic-bezier(.17, .67, .51, .95) forwards;
-                         }
-                         
-                         @keyframes slide-in-left {
-                             from {
-                                 transform: translateX(-100%);
-                             }
-                             to {
-                                 transform: translateX(0);
-                             }
-                         }
-                         
-                         @keyframes slide-out-left {
-                             from {
-                                 transform: translateX(0);
-                             }
-                             to {
-                                 transform: translateX(-100%);
-                             }
-                         }
+:root {
+    --color-primary: #17191b;
+    --color-onprimary: #444;
+    --color-secondary: rgb(255, 251, 0);
+}
+
+body {
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.bg-primary {
+    background-color: var(--color-primary)!important
+}
+
+.bg-onprimary {
+    background-color: var(--color-onprimary) !important
+}
+
+.bg-secondary {
+    background-color: var(--color-secondary) !important
+}
+
+.btn-add {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+}
+
+.small {
+    font-size: .675em;
+}
+
+aside {
+    overflow: hidden;
+}
+
+aside .content {
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+aside .links {
+    list-style: none;
+}
+
+aside .links li {
+    /* margin-bottom: 10px; */
+}
+
+aside .links li span.message-box {
+    border-bottom: 1px solid #222;
+    flex: 1;
+}
+
+aside i {
+    color: grey;
+    font-size: 30px;
+}
+
+.messages {
+    border-right: 1px solid rgb(34, 34, 34);
+}
+
+.message {
+    display: inline-block;
+    position: relative;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    max-width: 65%;
+}
+
+.message.sent:nth-of-type(1):before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    clip-path: polygon(0 0, 0 100%, 100% 0);
+    background-color: inherit;
+    position: absolute;
+    top: 0;
+    right: -19px;
+}
+
+.message.recieve:nth-of-type(1):before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    clip-path: polygon(0 0, 100% 100%, 100% 0);
+    background-color: inherit;
+    position: absolute;
+    top: 0;
+    left: -19px;
+}
+
+.message.sent {
+    background-color: var(--color-primary);
+}
+
+.message:not(:last-of-type) {
+    margin-bottom: 5px;
+}
+
+.message.recieve {
+    background-color: var(--color-onprimary);
+}
+
+.sent-container,
+.recieve-container {
+    margin-bottom: 32px
+}
+
+.friends {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    transform: translateX(-100%);
+    transition: all .4s;
+}
+
+.slide-in-left {
+    animation: slide-in-left .2s cubic-bezier(.17, .67, .51, .95) forwards;
+}
+
+.slide-out-left {
+    animation: slide-out-left .2s cubic-bezier(.17, .67, .51, .95) forwards;
+}
+
+@keyframes slide-in-left {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-out-left {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.onlinestatus {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: -2px;
+    left: 20px;
+}
+
+.onlinestatus.active {
+    background-color: rgb(68, 184, 1);
+}

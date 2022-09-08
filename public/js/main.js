@@ -32,6 +32,13 @@ const showfiendsOrGroupPanel = Array.from(
 
 const socket = io();
 // socket.on("connect", () => socket.emit("userConnected", user.id));
+
+socket.on("onlineStatus", (status) => {
+  if (status === "active")
+    document.querySelector(".onlinestatus").classList.add(status);
+  else document.querySelector(".onlinestatus").classList.remove("active");
+});
+
 socket.on("message", (message) => {
   console.log(message);
   if (typeof message !== "object" && !message.error) return false;
