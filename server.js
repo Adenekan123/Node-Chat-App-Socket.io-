@@ -50,6 +50,12 @@ app.use(express.static(path.join("./node_modules/")));
 //   next();
 // });
 
+function setOnlineStatus(socket, status) {
+  socket.friends.forEach((friend) =>
+    socket.broadcast.to(friend).emit("onlineStatus", status)
+  );
+}
+
 const wrap = (middleware) => (socket, next) =>
   middleware(socket.request, {}, next);
 
@@ -60,7 +66,7 @@ io.use((socket, next) => {
   if (session && session.user) {
     socket.id = session.user._id.toString();
     socket.username = session.user.username;
-    socket.friends = session.user.friends;
+    socket.friends = session.user.friends.map((friend) => friend.id);
     next();
   } else {
     next(new Error("unauthorized"));
@@ -71,9 +77,8 @@ io.on("connection", (socket) => {
   console.log("New WS connetion");
   socket.emit("message", "Hello!, Welcome to Mass Chat");
   socket.join(socket.id);
-
   socket.broadcast.emit("message", "A user just joined");
-
+  setOnlineStatus(socket, "online");
   //listen to new message
   socket.on("newMessage", async function ({ message, clientid }) {
     const reciever = await User.findOne({ _id: clientid }, { username: 1 });
@@ -100,9 +105,10 @@ io.on("connection", (socket) => {
     socket.broadcast.to(clientid).emit("istyping", val);
   });
 
-  socket.on("disconnect", () =>
-    socket.broadcast.emit("message", "A user just left the chat")
-  );
+  socket.on("disconnect", () => {
+    socket.broadcast.emit("message", "A user just left the chat");
+    setOnlineStatus(socket, "offline");
+  });
 });
 
 server.listen(8000, () => console.log("Server listening on PORT 8000"));
