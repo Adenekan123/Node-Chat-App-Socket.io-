@@ -73,12 +73,15 @@ export async function getUserStatus() {
       }`
     );
     const user = await response.json();
-    user.active
-      ? document.querySelector(".onlinestatus").classList.add("active")
-      : document.querySelector(".onlinestatus").classList.remove("active");
+    setOnlineStatus(user.active);
   } catch (e) {
     console.log(e);
   }
+}
+
+export function setOnlineStatus(status) {
+  if (status) document.querySelector(".onlinestatus").classList.add("active");
+  else document.querySelector(".onlinestatus").classList.remove("active");
 }
 
 export async function getAllFriends() {

@@ -8,6 +8,7 @@ import {
   acceptFriendRequest,
   getFriendRequests,
   getUserStatus,
+  setOnlineStatus,
 } from "./services.js";
 const clientinputid = document.querySelector("#sendMessageForm #clientid");
 const btnAllFriends = document.querySelector(".btn-allfriends");
@@ -34,11 +35,7 @@ const showfiendsOrGroupPanel = Array.from(
 const socket = io();
 // socket.on("connect", () => socket.emit("userConnected", user.id));
 
-socket.on("onlineStatus", (status) => {
-  if (status === "active")
-    document.querySelector(".onlinestatus").classList.add(status);
-  else document.querySelector(".onlinestatus").classList.remove("active");
-});
+socket.on("onlineStatus", setOnlineStatus);
 
 socket.on("message", (message) => {
   console.log(message);
