@@ -22,6 +22,7 @@ const schema = new mongoose.Schema({
     },
   ],
   date: { type: Date, default: Date.now() },
+  active: { type: Boolean, dafault: false },
 });
 
 schema.pre("save", async function () {
