@@ -50,10 +50,20 @@ app.use(express.static(path.join("./node_modules/")));
 //   next();
 // });
 
-function setOnlineStatus(socket, status) {
-  socket.friends.forEach((friend) =>
-    socket.broadcast.to(friend).emit("onlineStatus", status)
-  );
+async function setOnlineStatus(socket, status) {
+  const response = await User.updateOne({ _id: socket.id }, { active: status });
+  if (response._id) {
+    //broadcast to all online friends;
+    const onlineusers = await User.find(
+      { active: true, _id: { $in: socket.friends } },
+      { _id: 1 }
+    );
+    if (onlineusers.length > 0) {
+      onlineusers.forEach((user) =>
+        socket.broadcast.to(user._id.toString()).emit("onlineStatus", status)
+      );
+    }
+  }
 }
 
 const wrap = (middleware) => (socket, next) =>
@@ -78,7 +88,7 @@ io.on("connection", (socket) => {
   socket.emit("message", "Hello!, Welcome to Mass Chat");
   socket.join(socket.id);
   socket.broadcast.emit("message", "A user just joined");
-  setOnlineStatus(socket, "active");
+  setOnlineStatus(socket, true);
   //listen to new message
   socket.on("newMessage", async function ({ message, clientid }) {
     const reciever = await User.findOne({ _id: clientid }, { username: 1 });
@@ -107,7 +117,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     socket.broadcast.emit("message", "A user just left the chat");
-    setOnlineStatus(socket, "inactive");
+    setOnlineStatus(socket, false);
   });
 });
 
