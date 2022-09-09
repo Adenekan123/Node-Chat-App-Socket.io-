@@ -65,6 +65,22 @@ export async function getConversationsWithUSer(e) {
   }
 }
 
+export async function getUserStatus() {
+  try {
+    const response = await fetch(
+      `${API_URL}/user/status/${
+        document.querySelector("#sendMessageForm #clientid").value
+      }`
+    );
+    const user = await response.json();
+    user.active
+      ? document.querySelector(".onlinestatus").classList.add("active")
+      : document.querySelector(".onlinestatus").classList.remove("active");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getAllFriends() {
   try {
     const response = await fetch(`${API_URL}/user/friends`);

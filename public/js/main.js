@@ -7,6 +7,7 @@ import {
   cancelFriendRequest,
   acceptFriendRequest,
   getFriendRequests,
+  getUserStatus,
 } from "./services.js";
 const clientinputid = document.querySelector("#sendMessageForm #clientid");
 const btnAllFriends = document.querySelector(".btn-allfriends");
@@ -161,7 +162,9 @@ function onUserClick() {
       client_username.innerText = this.getAttribute("client_username");
       document.querySelector("#sendMessageForm #clientid").value =
         this.getAttribute("clientid");
-      getConversationsWithUSer(this).then(renderUserConversations);
+      getConversationsWithUSer(this)
+        .then(renderUserConversations)
+        .then(getUserStatus);
     });
   });
 }
