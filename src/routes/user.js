@@ -217,4 +217,14 @@ Route.get("/messages", auth, async (req, res) => {
   }
 });
 
+//get online status
+Route.get("/status/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findone({ _id: req.params.id }, { active: 1 });
+    if (user) res.status(200).json(user);
+  } catch (err) {
+    res.status(404).json({ error: true, message: err.message });
+  }
+});
+
 module.exports = Route;
